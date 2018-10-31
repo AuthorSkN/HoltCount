@@ -3,6 +3,7 @@ package com.netcracker;
 
 import com.google.common.eventbus.EventBus;
 import com.netcracker.gui.*;
+import com.google.inject.*;
 
 public class Main {
 
@@ -10,7 +11,8 @@ public class Main {
 
     public static void main(String[] args) {
         EventBus eventBus = new EventBus();
-        GUIController controller = new GUIController(eventBus);
+        Injector injector = Guice.createInjector(new HoltCountModule(eventBus));
+        GUIController controller = injector.getInstance(GUIController.class);
         eventBus.register(controller);
         controller.start();
     }
